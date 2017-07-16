@@ -1,0 +1,21 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"   Minimal VIM Configuration File
+"
+" Author: Do Tuan Hung <dth.online@gmail.com>
+" Date: July 15, 2017
+"
+" To use it, copy it to:
+"   for Unix/Linux: ~/.vimrc
+"      for Windows: %HOME%/.vimrc
+
+set nocompatible        " use VIM not VI
+set backspace=2         " backspace in insert mode works like normal editor
+syntax on               " syntax highlighting
+filetype indent on      " activates indenting for files
+set autoindent          " auto indenting
+set number              " line numbers
+set showcmd             " show typing command
+set showmode            " show mode in the last line
+set background=dark
+colorscheme desert      " colorscheme desert
+set nobackup            " get rid of anoying ~file
