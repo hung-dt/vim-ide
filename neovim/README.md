@@ -107,3 +107,55 @@ After that run `nvim` and `:checkhealth` and you should see the report:
   - INFO: pynvim version: 0.4.1    
   - OK: Latest pynvim is installed.    
 ```
+
+## Install [vim-plug](https://github.com/junegunn/vim-plug)
+
+```
+curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+You should now have `plug.vim` in your autoload directory so it will load of on start.
+
+### Config file for plugins
+
+Put all configs for plugins in 1 files at: `~/.config/nvim/vim-plug/plugins.vim` with a minimal setup:
+```
+" auto-install vim-plug
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  "autocmd VimEnter * PlugInstall
+  "autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+
+" Plugins will be downloaded under the specified directory.
+call plug#begin('~/.vim/plugged')
+
+  " Declare the list of plugins.
+  Plug 'tpope/vim-sensible'
+  Plug 'junegunn/seoul256.vim'
+  " Better Syntax Support
+  Plug 'sheerun/vim-polyglot'
+  " File Explorer
+  Plug 'scrooloose/NERDTree'
+  " Auto pairs for '(' '[' '{' 
+  Plug 'jiangmiao/auto-pairs'
+
+" List ends here. Plugins become visible to Vim after this call.
+call plug#end()
+```
+
+and source it in `init.vim`:
+```
+source $HOME/.config/nvim/vim-plug/plugins.vim
+```
+
+### Vim-plug commands
+
+| Command        | Description                                                          |
+|----------------|----------------------------------------------------------------------|
+| `:PlugStatus`  | Check the status of your plugins                                     |
+| `:PlugInstall` | Install all of your plugins                                          |
+| `:PlugUpdate`  | To update your plugins                                               |
+| `:PlugDiff`    | After the update you can press d to see the differences or run       |
+| `:PlugClean`   | To remove plugins that are no longer defined in the plugins.vim file |
+| `:PlugUpgrade` | Finally if you want to upgrade vim-plug itself run the following     |
