@@ -159,3 +159,97 @@ source $HOME/.config/nvim/vim-plug/plugins.vim
 | `:PlugDiff`    | After the update you can press d to see the differences or run       |
 | `:PlugClean`   | To remove plugins that are no longer defined in the plugins.vim file |
 | `:PlugUpgrade` | Finally if you want to upgrade vim-plug itself run the following     |
+
+## coc.nvim and ccls
+
+### coc.nvim
+
+### ccls build
+
+Reference: https://github.com/MaskRay/ccls/wiki/Build
+
+Prebuilt Clang+LLVM binaries [https://justiceboi.github.io/blog/install-clang-9-on-ubuntu/]
+
+* Pick the one on https://releases.llvm.org/download.html that suits your system.
+* Extract to `~/opt/clang_xxx`
+* Add to `$PATH` and `$LD_LIBRARY_PATH`
+
+Firstly the ccls needs to be cloned locally using git.
+```
+git clone --depth=1 --recursive https://github.com/MaskRay/ccls
+cd ccls
+```
+
+There is a dependency to rapid/Json but that is solved through the recursive git clone call.
+
+Build:
+
+```
+mkdir build && cd build
+cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release \
+-DCMAKE_INSTALL_PREFIX=$HOME/opt \
+-DCMAKE_PREFIX_PATH=$HOME/clang_10.0.0-x86_64
+```
+
+In my build I get the following error:
+```
+fatal: No names found, cannot describe anything.
+```
+This seems to have something to do with git and its safe to ignore.
+
+```
+ninja -j 4
+
+cmake --build . --target install
+```
+
+### Configure coc.nvim with ccls
+
+Reference:
+  https://www.cocode.se/c++/ccls.html
+  https://github.com/MaskRay/ccls/wiki/coc.nvim
+  https://ianding.io/2019/07/29/configure-coc-nvim-for-c-c++-development/
+
+Open config file with command `:CocConfig`. This will open the file `~/.config/nvim/coc-settings.json`
+
+Here you can add language servers and other configuration like autoformat and adding a location for snippets.
+
+```
+{
+  "languageserver": {
+    "ccls": {
+      "command": "ccls",
+      "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
+      "rootPatterns": [".ccls", "*build*/compile_commands.json", ".git/", ".hg/", ".svn/"],
+      "initializationOptions": {
+        "cache": {
+          "directory": "/tmp/ccls-cache"
+        },
+        "client": {
+          "snippetSupport": true
+        }
+      }
+    }
+  }
+}
+```
+
+The `initializationOptions` is the json object that passed to language server on initialize.
+
+The `rootPatterns` is used to resolve the root path which should contain one of the patterns as a child directory or file. For example, if a directory contains `.ccls-root` then the directory is the project root folder.
+
+There are two ways to tell ccls your compile options.
+
+1. Generate `compile_commands.json` and put it to your project root;
+2. Place `.ccls` to your project root. It is a text file, in which each line is a command line argument passed to the compiler.
+
+Here is an example of `.ccls` (each command line argument occupies a line):
+```
+-I
+../include
+-I
+../vendor/include
+-std=c++14
+-stdlib=libc++
+-fPIC
+```
