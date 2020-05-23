@@ -220,7 +220,7 @@ Here you can add language servers and other configuration like autoformat and ad
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
-      "rootPatterns": [".ccls", "*build*/compile_commands.json", ".git/", ".hg/", ".svn/"],
+      "rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/", ".svn/"],
       "initializationOptions": {
         "cache": {
           "directory": "/tmp/ccls-cache"
@@ -245,11 +245,34 @@ There are two ways to tell ccls your compile options.
 
 Here is an example of `.ccls` (each command line argument occupies a line):
 ```
--I
-../include
--I
-../vendor/include
--std=c++14
--stdlib=libc++
--fPIC
+clang
+%cpp -std=c++17
+%h -x
+%h c++-header
+-isystem/home/hungdt/opt/include
+-isystem/home/hungdt/opt/include/SDL2
+```
+Ref: https://github.com/MaskRay/ccls/wiki/Project-Setup#ccls-file
+
+## FZF, Ripgrep
+
+Reference: https://medium.com/@sidneyliebrand/how-fzf-and-ripgrep-improved-my-workflow-61c7ca212861
+
+FZF is a fuzzy file finder, written in Go, while Ripgrep is an extremely fast grep, written in Rust, that respects gitignore rules by default.
+
+Install fzf and Ripgrep:
+```
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+```
+
+add this line to `.zshrc`
+```
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+```
+
+Integrate with vim/nvim:
+```
+Plug '~/.fzf'
+Plug 'junegunn/fzf.vim'
 ```
