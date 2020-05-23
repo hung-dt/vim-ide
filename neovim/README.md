@@ -1,5 +1,27 @@
 # Neovim configuration files
 
+## Key mappings
+
+In the following table, `<ldr>` represents the `,` character.
+
+| Shortcut        | Mode          | Description                                    |
+|-----------------|---------------|------------------------------------------------|
+| `F3`            | Normal        | Toggle showing list chars                      |
+| `F4`            | Normal        | Toggle line numbers                            |
+| `F5`            | Normal        | Toggle NerdTree and keep cursor in file window |
+| `F6`            | Normal        | Toggle paste mode                              |
+| `F8`            | Normal        | Toggle tagbar                                  |
+| `F9`            | Normal        | Show terminal in split window                  |
+| `<Ctrl>o`       | Normal        | Back to previous buffer                        |
+| `<Ctrl>h/j/k/l` | Normal        | Navigate split windows                         |
+| `<Shift>h/l`    | Normal        | Previous/next tab                              |
+| `Space`         | Normal        | Open fold                                      |
+| `<ldr>Space`    | Normal        | Clear highlights                               |
+| `<ldr>w`        | Normal        | Save the current buffer                        |
+| `<Alt>j/k`      | Normal/Visual | Move line/selection up or down (by vim-move)   |
+
+## Installation
+
 Install on Ubuntu/Mint
 ```
 sudo apt-get install neovim
